@@ -7,8 +7,6 @@ from hologram import JsonSchemaMixin, ValidationError
 from dbt.contracts.rpc import RPCParameters, RemoteResult, RemoteMethodFlags
 from dbt.exceptions import NotImplementedException, InternalException
 
-from dbt.task.base import BaseTask
-
 Parameters = TypeVar('Parameters', bound=RPCParameters)
 Result = TypeVar('Result', bound=RemoteResult)
 
@@ -18,7 +16,7 @@ Result = TypeVar('Result', bound=RemoteResult)
 T = TypeVar('T', bound='RemoteMethod')
 
 
-class RemoteMethod(Generic[Parameters, Result], BaseTask):
+class RemoteMethod(Generic[Parameters, Result]):
     METHOD_NAME: Optional[str] = None
 
     def __init__(self, args, config):
@@ -104,6 +102,11 @@ class RemoteBuiltinMethod(RemoteMethod[Parameters, Result]):
 
     def set_args(self, params: Parameters):
         self.params = params
+
+    def run(self):
+        raise InternalException(
+            'the run() method on builtins should never be called'
+        )
 
     def __call__(self, **kwargs: Dict[str, Any]) -> JsonSchemaMixin:
         try:

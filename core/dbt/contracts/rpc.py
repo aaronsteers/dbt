@@ -176,7 +176,7 @@ class ResultTable(JsonSchemaMixin):
 
 
 @dataclass
-class RemoteRunOperationResult(RemoteExecutionResult):
+class RemoteRunOperationResult(ExecutionResult, RemoteResult):
     success: bool
 
 
@@ -190,6 +190,7 @@ RPCResult = Union[
     RemoteExecutionResult,
     RemoteCatalogResults,
     RemoteEmptyResult,
+    RemoteRunOperationResult,
 ]
 
 

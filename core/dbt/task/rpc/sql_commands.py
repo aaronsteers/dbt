@@ -126,8 +126,8 @@ class RemoteRunSQLTask(RPCTask[RPCExecParameters]):
 
         # don't write our new, weird manifest!
         self.linker = compile_manifest(self.config, self.manifest, write=False)
-        self._compile_ancestors(node.unique_id)
-        return node
+        self._compile_ancestors(rpc_node.unique_id)
+        return rpc_node
 
     def _raise_set_error(self):
         if self._raise_next_tick is not None:
